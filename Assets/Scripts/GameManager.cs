@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     AudioClip _gameOverSound;
 
     int _score = 0;
-    int _time = 20;
+    int _time = 10;
     int _scoreModifier = 1;
     int _foodSpawnRate = 2;
     int _powerupSpawnRate = 13;
@@ -104,9 +104,10 @@ public class GameManager : MonoBehaviour
 
     void LoadLeaders()
     {
-        string leader = "1. " + (DataManager.Instance.BestName != null ? DataManager.Instance.BestName : "none");
-        leader += ": " + (DataManager.Instance.BestPoints != 0 ? DataManager.Instance.BestPoints.ToString() : "0");
-        _leadersText.text = leader;
+        for (int i = 0; i < DataManager.Instance.Leaders.Length; i++)
+        {
+            _leadersText.text += $"{i + 1}. " + DataManager.Instance.Leaders[i].Name + "\t" + DataManager.Instance.Leaders[i].Points + "\n";
+        }
     }
 
     void ShowLeaders()
@@ -179,8 +180,7 @@ public class GameManager : MonoBehaviour
 
         DataManager.Instance.CurrentPoints = _score;
 
-        if (DataManager.Instance.CurrentPoints >= DataManager.Instance.BestPoints)
-            DataManager.Instance.SaveData();
+        DataManager.Instance.SaveData();
     }
 
     public void UpdateScore(int scoreAmount)
